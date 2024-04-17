@@ -1,5 +1,5 @@
-import { Request } from 'express';
 import User from '../entities/user';
+import moment from 'moment'
 
 export default {
     getUsers: async () => {
@@ -16,11 +16,15 @@ export default {
         return content;
     },
 
-    createUser: async (userData: any) => {
+    createUser: async (UserData: any) => {
         User.sync({});
+        var currentDate = moment().format("YYYYMMDDHHmmss");
         let content = await User.create({
-            UserName: userData.UserName,
-            Email: userData.Email
+            UserName: UserData.Username,
+            Email: UserData.Email,
+            Password: UserData.Password,
+            Created_Date: currentDate,
+            Is_Active: 1,
         });
         return content;
     },
@@ -29,13 +33,20 @@ export default {
         // Implement logic to update a user
     },
 
-    deleteUser: async (userId: number) => {
+    deleteUser: async (UserId: number) => {
         let content = await User.findOne({
-            where: { ID: userId }
+            where: { ID: UserId }
         });
         if (content) {
             content.Is_Active = 'false';
             // User.update(content);
         }
+    },
+
+    getByEmail: async (Email?: string) => {
+        let content = await User.findOne({
+            where: { Email: Email, Is_Active: 1 }
+        });
+        return content;
     },
 };

@@ -11,7 +11,10 @@ const sequelize = new Sequelize(config.database, config.db_user, config.db_pass,
         }
     }
 });
-
+// "build": "npx tsc",
+//     "start": "node dist/index.js",
+//     "dev": "nodemon src/index.ts dotenv_config_path=env/local.env",
+//     "test": "echo \"Error: no test specified\" && exit 1"
 export const bootstrapDatabase = async (): Promise<any> => {
     try {
         // Test the database connection
